@@ -1,3 +1,47 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #!/bin/bash
 
 cd ~
@@ -18,6 +62,7 @@ cp secondDirectory/myNotePaper .
 mv myNotePaper myOldNotePaper
 
 cd - 
+
 
 
 
