@@ -1,1 +1,0 @@
-Moving a binary file to a directory in the system's PATH, such as /usr/local/bin, allows you to execute the binary from any working directory. This is because directories listed in the PATH environment variable are searched when you attempt to execute a command, and /usr/local/bin is a common location for user-installed binaries
