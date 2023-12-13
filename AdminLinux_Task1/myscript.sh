@@ -17,7 +17,4 @@ cp secondDirectory/myNotePaper .
 
 mv myNotePaper myOldNotePaper
 
-cd - 
-
-
-
+cd -
