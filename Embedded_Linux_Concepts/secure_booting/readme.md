@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository outlines the implementation of a secure boot process using a Hardware Security Module (HSM) to enhance the security of the system. The secure boot process ensures that only trusted and authenticated firmware or applications are allowed to execute during the boot sequence.
+This readme file outlines the implementation of a secure boot process using a Hardware Security Module (HSM) to enhance the security of the system. The secure boot process ensures that only trusted and authenticated firmware or applications are allowed to execute during the boot sequence.
 
 ## Key Components
 
