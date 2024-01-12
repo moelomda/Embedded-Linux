@@ -1,10 +1,5 @@
 - # Vexpress Emulation with QEMU and U-Boot
 
-- Table of Contents
-
-  1. [Create Blank SD Card Image](#create-blank-sd-card-image)
-2. [Downloading and Installing U-Boot Step by Step](#downloading-and-installing-u-boot-step-by-step)
-  3. [Boot Configuration and TFTP Setup](#boot-configuration-and-tftp-setup)
 
   ## Create Blank SD Card Image
 
