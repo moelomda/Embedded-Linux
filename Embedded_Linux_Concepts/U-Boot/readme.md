@@ -3,20 +3,6 @@
 
   ## Create Blank SD Card Image
 
-  Content related to creating a blank SD card image goes here.
-
-  ## Downloading and Installing U-Boot Step by Step
-
-  Step-by-step instructions for downloading and installing U-Boot should be placed here.
-
-  ## Boot Configuration and TFTP Setup
-
-  Information about configuring the boot settings and setting up TFTP should be placed here.
-
-- 
-
-  ## Create Blank SD Card Image
-
   A "blank" SD card image is like an empty disk. It's a file that will represent the storage for your emulated system. In this guide, we'll create an SD card image instead of buying one 😆.
 
   ### Partition the SD Card Image
