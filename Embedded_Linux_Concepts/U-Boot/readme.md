@@ -1,5 +1,25 @@
 - # Vexpress Emulation with QEMU and U-Boot
 
+- Table of Contents
+
+  1. [Create Blank SD Card Image](#create-blank-sd-card-image)
+2. [Downloading and Installing U-Boot Step by Step](#downloading-and-installing-u-boot-step-by-step)
+  3. [Boot Configuration and TFTP Setup](#boot-configuration-and-tftp-setup)
+
+  ## Create Blank SD Card Image
+
+  Content related to creating a blank SD card image goes here.
+
+  ## Downloading and Installing U-Boot Step by Step
+
+  Step-by-step instructions for downloading and installing U-Boot should be placed here.
+
+  ## Boot Configuration and TFTP Setup
+
+  Information about configuring the boot settings and setting up TFTP should be placed here.
+
+- 
+
   ## Create Blank SD Card Image
 
   A "blank" SD card image is like an empty disk. It's a file that will represent the storage for your emulated system. In this guide, we'll create an SD card image instead of buying one 😆.
@@ -384,6 +404,8 @@ qemu-system-arm -M vexpress-a9 -m 128M -nographic -kernel u-boot/u-boot -sd sd.i
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Boot Configuration and TFTP Setup
+
 **when you need to make changes to the partitions , we  can remount it with read-write permissions.**
 
 ```bash
@@ -396,7 +418,7 @@ sudo mount -o remount,rw /dev/loop25p1
 
 `remount,rw`: Specify the remount option and set it to read-write.
 
-**so what is the difference between losetup and mount commands ?** 
+## **so what is the difference between losetup and mount commands ?** 
 
 `losetup` is a command used to associate loop devices with  regular files or block devices. Loop devices allow you to treat a  regular file as if it were a block device. 
 
@@ -417,7 +439,7 @@ setenv Kernel_address 0x6000000
 setenv fdt_address 0x7000000
 ```
 
-These commands set an environment variable named `Kernel_address` with the hexadecimal value `0x6000000`. The variable is intended to store the memory address where the kernel image will be loaded.
+These commands set an environment variable named `Kernel_address` with the value `0x6000000`. The variable is intended to store the memory address where the kernel image will be loaded.
 
 and set the `fdt_address` environment variable to `0x7000000`. This variable typically represents the memory address where the device  tree binary (DTB) will be loaded during the U-Boot boot process.
 
@@ -425,16 +447,16 @@ and set the `fdt_address` environment variable to `0x7000000`. This variable typ
 setenv bootcmd "echo 3omda ; fatload mmc 0:1 ${Kernel_address} main.c; fatload mmc 0:1 ${fdt_address} beagle.dtb ; bootz ${Kernel_address} - ${fdt_address}"
 ```
 
-This command sets the `bootcmd` environment variable. The `bootcmd` variable typically contains the command(s) that U-Boot will execute when the system boots. In this case, the `bootcmd` is a string that includes two commands:
+This command sets the `bootcmd` environment variable. The `bootcmd` variable typically contains **the command(s) that U-Boot will execute when the system boots**. In this case, the `bootcmd` is a string that includes two commands:
 
 - `echo 3omda: This is an `echo` command that will print the string "3omda" during the boot process. It's a simple informational message.
-- `fatload mmc 0:1 ${Kernel_address} main.c`: This is a U-Boot command to load a file named `main.c` from the FAT filesystem on the first partition of the MMC/SD card. The `${Kernel_address}` is a variable substitution, and it will be replaced with the value stored in the `Kernel_address` variable.
-- `fatload mmc 0:1 ${fdt_address} beagle.dtb`: Loads the device tree binary (`beagle.dtb`) from the FAT filesystem on the first partition of the MMC/SD card into memory at the address specified by `${fdt_address}`.
+- `fatload mmc 0:1 ${Kernel_address} main.c`: This is a U-Boot command to load a file named `main.c` from the FAT filesystem on the first partition of the SD card. The `${Kernel_address}` is a variable substitution, and it will be replaced with the value stored in the `Kernel_address` variable.
+- `fatload mmc 0:1 ${fdt_address} beagle.dtb`: Loads the device tree binary (`beagle.dtb`) from the FAT filesystem on the first partition of the  SD card into memory at the address specified by `${fdt_address}`.
 - `bootz ${Kernel_address} - ${fdt_address}`: Initiates the kernel boot process using the `bootz` command. It specifies the kernel image address (`${Kernel_address}`) and the device tree address (`${fdt_address}`). The hyphen (`-`) is used to separate the addresses.
 
-**important note ** 
+#### **important note ** 
 
-**use of (DTB)**-----> Device Tree Binary 
+**Use of (DTB)**-----> Device Tree Binary 
 
 - **with U-Boot:**
 
@@ -444,23 +466,50 @@ This command sets the `bootcmd` environment variable. The `bootcmd` variable typ
 - **with Linux Kernel:**
 
   - The Linux kernel, when booted, uses the DTB provided by U-Boot to configure and initialize the hardware components.
-  - The device tree allows the Linux kernel to be more adaptable to different hardware configurations without requiring recompilation of the kernel for each specific platform.
+  - The device tree allows the Linux kernel **to be more adaptable to different hardware configurations without requiring recompilation of the kernel for each specific platform.**
 
   ------
 
-**optimizing commands** 
+#### **optimizing commands** 
 
 ```bash
 setenv bootcmd "echo 3omda ; if fatload mmc 0:1 ${Kernel_address} main.c && fatload mmc 0:1 ${fdt_address} beagle.dtb; then bootz ${Kernel_address} - ${fdt_address}; else echo 'Failed to load kernel or DTB'; fi"
 ```
 
-Uses the `if` statement to check the success of loading `main.c` and `beagle.dtb` using `fatload`.
+now we use  the `if` statement to check the success of loading `main.c` and `beagle.dtb` using `fatload`.
 
 If both `fatload` commands are successful, it executes `bootz ${Kernel_address} - ${fdt_address}`.
 
 If any of the `fatload` commands fails, it prints "Failed to load kernel or DTB".
 
-**to make it more abstracted** 
+#### Now we want to make it more abstracted 
+
+```bash
+setenv flash_kernel_size 0x400000   # Example size for kernel 
+setenv fdt_address 0x83000000       # Example RAM address for loading DTB 
+setenv flash_fdt_offset 0x800000    # Example offset in flash memory for DTB
+setenv flash_fdt_size 0x20000       # Example size for DTB 
+```
+
+**`flash_kernel_size`:**
+
+- Example: `0x400000` (4 megabytes)
+- we should replace this with the actual size of our kernel image in bytes.
+
+**`fdt_address`:**
+
+- Example: `0x83000000`
+- This is the RAM address where you want to load the DTB. 
+
+**`flash_fdt_offset`:**
+
+- Example: `0x800000` (8 megabytes)
+- This is the offset in the flash memory where the DTB is stored. 
+
+**`flash_fdt_size`**
+
+- Example: `0x20000` (128 kilobytes)
+- we should Replace this with the actual size of our  DTB file in bytes. 
 
 ```bash
 setenv kernel_load_cmd "fatload mmc 0:1 ${Kernel_address} Zimage"
@@ -473,7 +522,7 @@ setenv fdt_load_tftp_cmd "tftp ${fdt_address} beagle.dtb"
 
 1. **`setenv kernel_load_cmd "fatload mmc 0:1 ${Kernel_address} Zimage"`:**
    - This command sets an environment variable named `kernel_load_cmd`.
-   - The value of this variable is a U-Boot command that loads a file named `Zimage` from the FAT filesystem on the first partition of the MMC/SD card into memory at the address specified by `${Kernel_address}`.
+   - The value of this variable is a U-Boot command that loads a file named `Zimage` from the FAT filesystem on the first partition of the SD card into memory at the address specified by `${Kernel_address}`.
 2. **`setenv fdt_load_cmd "fatload mmc 0:1 ${fdt_address} beagle.dtb"`:**
    - This command sets an environment variable named `fdt_load_cmd`.
    - The value of this variable is a U-Boot command that loads a file named `beagle.dtb` from the FAT filesystem on the first partition of the MMC/SD card into memory at the address specified by `${fdt_address}`.
@@ -505,10 +554,10 @@ fi"
 ```
 
 1. **`echo 3omda`**: Prints the string "3omda" during the boot process. This is an informational message.
-2. **`if ${kernel_load_cmd} && ${fdt_load_cmd}; then ... else ... fi`**: Checks if the kernel and device tree binaries can be loaded from the MMC/SD card using the commands specified in `kernel_load_cmd` and `fdt_load_cmd`.
+2. **`if ${kernel_load_cmd} && ${fdt_load_cmd}; then ... else ... fi`**: Checks if the kernel and device tree binaries can be loaded from the SD card using the commands specified in `kernel_load_cmd` and `fdt_load_cmd`.
    - If successful, it executes `bootz ${Kernel_address} - ${fdt_address}` to boot the system.
    - If unsuccessful, it moves to the `else` part.
-3. **`echo 'Failed to load kernel or DTB'`**: Prints a failure message if the MMC/SD card loading fails.
+3. **`echo 'Failed to load kernel or DTB'`**: Prints a failure message if the  SD card loading fails.
 4. **`if ${kernel_load_flash_cmd} && ${fdt_load_flash_cmd}; then ... else ... fi`**: Checks if the kernel and device tree binaries can be loaded from NAND flash using the commands specified in `kernel_load_flash_cmd` and `fdt_load_flash_cmd`.
    - If successful, it executes `bootz ${Kernel_address} - ${fdt_address}` to boot the system.
    - If unsuccessful, it moves to the `else` part.
@@ -523,17 +572,17 @@ fi"
 
 TFTP stands for Trivial File Transfer Protocol. It is a simple,  lightweight file transfer protocol that operates over the User Datagram  Protocol (UDP). TFTP is commonly used for transferring files between  devices on a network.
 
-**Uses**
+#### **Uses**
 
-One of the primary use cases for TFTP is network booting. During the boot process, an embedded device may use  TFTP to download its bootloader, kernel, or configuration files from a  TFTP server on the network. This is especially common in scenarios where the embedded device may not have local storage or needs to retrieve the operating system over the network.
+One of the primary use cases for TFTP is network booting. During the boot process, an embedded device may use  TFTP to download its bootloader, kernel, or configuration files from a  TFTP server on the network. This is especially common in scenarios where the embedded device may not have local storage or **needs to retrieve the operating system over the network.**
 
-During the development and testing of bootloaders for embedded systems,  TFTP is often used to transfer bootloader binaries between a development machine and the embedded device.
+## **configure my pc to be a server** 
 
-**configure my pc to be a server** 
+**note that you should  configure TFTP in u-boot configuration ------> in menuconfig** 
 
-note that you should  configure TFTP in u-boot configuration ------> in menuconfig 
+**and compile again** 
 
-you can configure your pc as a server (as it has a network interface)
+`you can configure your pc as a server (we are able to do that because our pc has a network interface)`
 
 ```bash
 sudo apt-get update
@@ -544,27 +593,31 @@ sudo apt-get install tftpd-hpa
 sudo chown tftp:tftp /srv/tftp
 ```
 
-to change  the owner and group to tftp  
+`to change  the owner and group to tftp`  
 
-then add yourself to tftp group 
+`then add yourself to tftp group` 
 
 ```bash
 sudo usermod -aG tftp mohamed 
 ```
 
- then open u-boot 
+ `then open u-boot` 
 
 ```bash
 setenv ipaddr 192.168.2.201
 ```
 
-his sets the U-Boot environment variable `ipaddr` to the specified IP address.
+this sets the U-Boot environment variable `ipaddr` to the specified IP address.
+
+**(this will be the ip address  of our machine )**
 
 ```
 setenv serverip 192.168.2.202
 ```
 
 This sets the U-Boot environment variable `serverip` to the specified IP address. 
+
+**(this will be the ip address  of the server )**
 
 ```
 tftp $kernel_address zimage
@@ -590,11 +643,18 @@ bootz $kernel_address - $fdt_address
 ```
 
 - `bootz`: This U-Boot command is typically used to boot a Linux kernel with an embedded device tree.
+
 - `$kernel_address`: Represents the memory address where the Linux kernel image (`zImage`) was loaded.
+
 - `-`: Separates the kernel image address from the DTB address.
+
 - `$fdt_address`: Represents the memory address where the DTB was loaded.
 
+  
+
 -----------------------------------------------------------------------------------------------
+
+**now our qemu command has a few changes** 
 
 ```
 qemu-system-arm -M vexpress-a9 -m 128M -nographic -kernel u-boot/u-boot -sd sd.img -net tap,script=./qemu.ifup -net nic
@@ -608,8 +668,6 @@ Make sure to have the `qemu.ifup` script in the current directory or provide the
 ```bash
 #!/bin/bash
 
-
-
 sudo ip addr add 192.168.1.202/24 dev $1
 sudo ip link set $1 up
 
@@ -619,7 +677,7 @@ sudo ip link set $1 up
 
 - `ip link set $1 up`: Bring up the network interface specified by `$1`. 
 
-Here's an example using `tap1' as the network interface:
+Here's an example using `tap' as the network interface:
 
 ```
 bash
