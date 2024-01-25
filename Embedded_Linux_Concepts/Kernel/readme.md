@@ -1,0 +1,547 @@
+# Linux Kernel 
+
+The Linux kernel is the core component of the Linux operating system, serving as the intermediary between hardware and user-level applications. It manages system resources, provides essential services, and facilitates communication between software and hardware components.
+
+## Resource Management:
+
+- The Linux kernel manages hardware resources, including CPU, memory, storage devices, and peripherals.
+- It allocates resources to processes, schedules tasks for execution, and ensures fair and efficient use of system resources.
+
+## Process Management:
+
+- The kernel oversees the creation, scheduling, and termination of processes.
+- It manages process execution, context switching, and inter-process communication.
+
+## Memory Management:
+
+- The kernel is responsible for allocating and deallocating memory for processes.
+- It implements virtual memory through techniques like paging and swapping, allowing processes to use more memory than physically available.
+
+## File System Support:
+
+- The kernel provides support for various file systems, enabling the mounting and access of storage devices.
+- It handles file I/O operations, file permissions, and ensures filesystem integrity.
+
+## Device Drivers:
+
+- Essential components of the kernel that allow communication with hardware devices.
+- The Linux kernel supports a wide range of device drivers, ensuring compatibility with diverse hardware components.
+
+## System Calls:
+
+- The interface between user-level applications and 
+
+![fundamental-architecture-of-linux (1)](C:\Users\Tech Nation\Desktop\fundamental-architecture-of-linux (1).webp)
+
+# Components of the Linux Kernel
+
+## System Calls:
+
+System calls are the interface between user-level applications and the kernel. They allow applications to request services from the kernel, such as file operations, process management, and communication.
+Examples of system calls include `open()`, `read()`, `write()`, `fork()`, `exec()`, and many others.
+System calls are defined in the kernel's source code, providing a way for user space to interact with the kernel's functionality.
+
+## Device Tree Blob (DTB/DTBO):
+
+The Device Tree is a data structure used by the kernel to describe the hardware configuration of the system, offering a platform-independent way to represent hardware.
+The Device Tree Blob (DTB) is a compiled version of the Device Tree source file. It is often provided to the kernel during the boot process to configure and initialize hardware devices.
+On some systems, Device Tree Overlays (DTBOs) allow dynamic modification of the device tree during runtime.
+
+## Kernel Modules:
+
+Kernel modules are pieces of code that can be loaded and unloaded into the running kernel without requiring a reboot. They extend the functionality of the kernel by providing additional drivers, filesystems, or other features.
+Modules are separate from the kernel image and are often distributed as `.ko` files.
+Examples of kernel modules include device drivers for specific hardware, filesystem modules, and network protocol modules.
+Common commands for managing kernel modules include `insmod` (insert module), `rmmod` (remove module), and `modprobe` (a more feature-rich module management tool).
+
+-----------------------------------------------------------------------------
+
+## **arm_linux_uclibc_gnueabihf**
+
+This target  typically refers to the **ARM architecture using the Linux kernel,** the GNU C Library (glibc), and the "hard float" (hf) ABI (Application Binary Interface). It is commonly used for cross-compiling applications to run on ARM-based Linux systems.
+
+## arm_none_eabi
+
+This target triplet indicates the ARM architecture with **no operating system (bare-metal)** and the Embedded ABI (eabi). It is often used for cross-compiling firmware, bootloaders, or **bare-metal applications** that run directly on ARM microcontrollers or other embedded systems without a full operating system.
+
+## arch_vendor_os_lib
+
+### arch
+Represents the target architecture for which you are building software. Examples include arm, x86_64, aarch64, etc.
+
+### vendor
+Refers to the entity or organization providing the toolchain or compiler for the specified architecture. Examples include gnu, apple, qualcomm, etc.
+
+### os
+Stands for the target operating system for which the software is being compiled. Examples include linux, darwin (macOS), windows, etc.
+
+### lib
+Indicates the standard library or runtime library associated with the target. Examples include glibc, uclibc, musl, etc.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+## arm_bb_linux_gnueabi app
+
+### ARM Architecture:
+- **arm:** Specifies the target architecture as ARM.
+
+### Barebox Bootloader:
+- **bb:** Indicates the use of Barebox as the bootloader. Barebox is a lightweight and flexible bootloader often used in embedded systems.
+
+### Linux Operating System:
+- **linux:** Specifies the use of the Linux kernel as the operating system.
+
+### GNU Embedded ABI:
+- **gnueabi:** Specifies the use of the GNU Embedded ABI, a set of conventions used for C and C++ function calls in the ARM architecture.
+
+  ---------
+
+  
+
+## when you compile the app it will be divided into logic and  system call
+
+### Logic Component:
+
+Contains the main application logic, algorithms, and functionalities. This part is typically responsible for the core functionality of the application.
+
+### System Call Component:
+Deals with interactions with the underlying operating system. This part might include code for making system calls, handling interrupts, or interacting with Linux-specific features.
+## Kernel Loading Application to RAM 
+
+**what happens when you type ./app in terminal to run an application ?**
+
+## Command Execution:
+
+When you run `./app`, the shell interprets the command and initiates the execution of the specified executable file (`app`).
+
+## System Calls and Kernel Handling:
+
+- The shell uses system calls like `exec()` to replace its own process image with the process image of the new executable (`app`).
+- After the execution of the new program (`app`), it takes over the process, inheriting the Process ID (PID) and other attributes from the original shell process.
+- The kernel is responsible for loading the program into memory, setting up its initial state, and preparing it for execution.
+
+## File System and Disk I/O:
+
+- If the executable (`app`) is stored on an SSD card, the kernel interacts with the file system to access the executable.
+- File system-related system calls ( open()`, `read()`) are used to read the binary code of the executable from the SSD card.
+
+## Loading into RAM:
+
+- The kernel loads the executable into the RAM (Random Access Memory) of the system.
+
+## Process Creation:
+
+- The kernel creates a new process for the executable, and this process becomes the running instance of your application.
+- The new process has its own address space, program counter, stack, and data space.
+
+## Kernel Modules:
+
+- While kernel modules are crucial for handling specific functionalities, such as device drivers, filesystems, or networking protocols, they are not explicitly involved in the typical loading and execution of user-space applications.
+- Kernel modules are dynamically loaded extensions to the kernel, and they can be loaded or unloaded as needed, but they are not typically used for loading user-space applications.
+
+----------------------------------------------------------------------------------
+
+# User Space and kernel Space 
+
+![user-space-vs-kernel-space-simple-user-space](C:\Users\Tech Nation\Desktop\Kernel\user-space-vs-kernel-space-simple-user-space.png)
+
+## User Space:
+
+The user space is the part of the system where user applications and tasks run. If a task or instruction can be executed **without requiring access to hardware resources or privileged operations**, it can remain within the user space.
+
+**Note: Privileged Operations in a Computer System**
+
+Privileged operations refer to operations that require higher levels of privilege within a computer system. These operations often involve critical system resources and functionalities .
+
+> **Manipulating CPU Control Registers:**
+> - Operations that involve configuring or altering CPU control registers, which control various aspects of the processor's behavior. These operations are typically restricted to privileged software.
+
+> **Handling Interrupts and Exceptions:**
+> - Management of system interrupts and exceptions, which are events that divert the normal flow of program execution. Privileged access is required to handle these events and maintain system stability.
+
+> **Configuring System Clock:**
+> - Adjusting settings related to the system clock, including timekeeping and synchronization. Privileged access is necessary to ensure accurate timekeeping and coordination across system components.
+
+> **Loading and Unloading Device Drivers:**
+> - Operations related to the dynamic loading and unloading of device drivers. Device drivers are crucial for communication between the operating system kernel and hardware devices. Managing these drivers requires elevated privileges.
+
+> **Accessing Kernel Memory:**
+> - Directly accessing and manipulating kernel memory, which contains sensitive data and critical system structures. This operation is restricted to privileged software to prevent unauthorized access and maintain system integrity.
+
+```markdown
+### Limitation in Accessing Hardware:
+
+In the user space, there is no direct access to hardware, and users do not have the privileges to interact with hardware components. This limitation ensures security and prevents unauthorized access to critical system resources.
+```
+
+## Kernel Space:
+
+The kernel space is the part of the operating system that has direct access to hardware and manages system resources. Tasks that require access to hardware or privileged operations, such as system calls or device interactions, typically involve the kernel.
+
+```markdown
+### Privilege Mode:
+
+In the kernel space, operations are carried out in a privileged mode. This mode allows the kernel to execute instructions and access hardware resources that are restricted from user space. Privilege mode ensures that critical system functions are performed securely and that unauthorized access to sensitive operations is prevented.
+
+Tasks running in privilege mode have the authority to execute privileged instructions, interact with hardware components, and manage system-level operations. This level of privilege is crucial for tasks that involve low-level system management, including handling interrupts, managing memory, and facilitating system calls.
+```
+
+## Can any application perform without using kernel ?
+
+#### yes ...........
+
+## Execution without Kernel Involvement:
+
+If the process can perform its job entirely within the user space, it means that it doesn't need to make system calls or interact with the kernel. This can be the case for purely computational or algorithmic tasks that don't involve accessing external devices, managing system resources, or requiring special privileges.
+
+## Examples:
+
+Examples of tasks that can be executed without involving the kernel include mathematical computations, data processing, and other algorithmic tasks. These activities only involve the manipulation of data in memory and don't require special system privileges.
+
+---------------------------------------------------------------------------------------
+
+**Note(very important ): Processes as Containers and System Calls**
+
+**A process is a container** , it has  the program's code, data, and resources. If an application requires interaction with hardware or needs to access resources outside its own process, **it  has to make a system call.** System calls act as the bridge between user-level applications and the kernel, allowing the application to request services and operations that require privileges or access to system resources.
+
+## Mode Switching:
+
+- **Transitions between Modes:**
+  Transitions between privileged and non-privileged modes occur during certain events, such as system calls, interrupts, or exceptions. When a user-level program needs to perform a privileged operation (e.g., I/O operation, memory allocation), it triggers a mode switch, allowing the kernel to execute the necessary operation on its behalf.
+
+- **Ensuring Security:**
+  Mode switching helps ensure that critical operations are performed by trusted components (kernel) and prevents unauthorized access to sensitive resources.
+  
+  ------------------------------------------------------------------------------------------------------
+  
+  
+  
+- ```markdown
+  ## Interrupt Handling in Different Modes:
+  
+  ### Privileged Mode:
+  
+  - **Interrupt Handling:**
+    In privileged mode, the kernel is responsible for handling interrupts. Interrupts are signals generated by hardware devices or external events that require attention from the operating system. The kernel has the necessary privileges to manage and respond to these interrupts.
+  
+  - **Priority Handling:**
+    The kernel can prioritize and manage the handling of interrupts based on their urgency and significance. It ensures that critical operations are promptly addressed, contributing to efficient system responsiveness.
+  
+  ### Non-privileged Mode:
+  
+  - **Interrupt Handling:**
+    In non-privileged mode, user-level processes do not directly handle interrupts. Instead, they rely on the kernel to manage and respond to interrupts on their behalf.
+  
+  - **Limited Access:**
+    User-level processes do not have the necessary privileges to directly interact with hardware or manage interrupt requests. The operating system mediates these interactions to ensure security and prevent unauthorized access to system resources.
+  
+  ### Mode Switching During Interrupts:
+  
+  - **Transition to Privileged Mode:**
+    When an interrupt occurs, there is often a transition from non-privileged mode to privileged mode. This transition allows the kernel to take control and handle the interrupt, ensuring proper management of system resources.
+  
+  - **Secure Handling:**
+    Mode switching during interrupts helps maintain system security by ensuring that critical interrupt handling and associated operations are performed by the trusted kernel.
+  
+  **Note:** The specifics of interrupt handling can vary depending on the architecture and operating system implementation. The information provided here presents a generalized view of interrupt handling in privileged and non-privileged modes.
+  ```
+
+## printf () Function in C (what is happening in the background ? )
+
+**`at first we need to ask , why printf() need to make a system call ?`** 
+
+**`because printf ()  use the console (screen) to display data and as we mentioned before to access hardware from user space you need to make a system call`**. 
+
+## code example 
+
+```
+#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+
+## printf Function Call:
+
+In the main function, there is a call to printf:
+
+```c
+printf("Hello, World!\n");
+```
+
+The `printf` function is part of the C Standard Library (libc). and `printf` is responsible for formatted output.
+
+### User Space to Kernel Space Transition:
+
+The `printf` function, residing in user space, needs assistance from the kernel to interact with hardware for tasks like writing to the terminal.
+
+### System Call (write):
+
+Inside the implementation of `printf`, there is typically a system call made to the kernel. The relevant system call for console output is usually `write`. The `write` system call allows the user space program to write data to a file descriptor. The file descriptor associated with the standard output (`stdout`) is usually 1.
+
+> (you don't need to understand this implementation all you need to know that `printf ()` has `write()` on it  )
+
+```c
+// Simplified printf implementation using the write system call
+int printf(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    char buffer[256];
+    int len = vsnprintf(buffer, sizeof(buffer), format, args);
+
+    // Using the write system call to output data to stdout (file descriptor 1)
+    write(1, buffer, len);
+
+    va_end(args);
+
+    return len; // Returning the number of characters written for simplicity
+}
+```
+
+
+
+### Kernel Handling (write System Call):
+
+1. The kernel receives the `write` system call and performs necessary actions to write the specified data to the console or terminal.
+2. The kernel checks permissions, performs any necessary buffering, and interacts with the appropriate device driver or subsystem to output the data.
+
+### Console Output:
+
+The data ("Hello, World!\n") is ultimately displayed on the console or terminal.
+
+----
+
+## System Call Table in Linux Kernel :
+
+![](C:\Users\Tech Nation\Desktop\Kernel\image00.webp)
+
+The system call table is a critical data structure used by the operating system kernel to map system call numbers to the corresponding functions that handle those system calls. In Linux, the system call table is an array of function pointers, and it plays a central role in allowing user-level applications to request services from the kernel. It facilitates the transition between user space and kernel space during system call execution.
+
+**System Call Number:**
+Each system call has a unique number assigned to it. For example, `open` might have a specific number, `read` another, and so on.
+
+**Registration:**
+During kernel initialization, the kernel registers its system calls by populating the system call table with the appropriate function pointers. The system call table is filled with addresses of functions that handle each specific system call.
+
+**System Call Invocation:**
+When a user-level application makes a system call (e.g., through the `syscall` instruction in assembly or a library function like `syscall` or `int 0x80`), it specifies the system call number.
+
+**Indexing the System Call Table:**
+The kernel uses the system call number as an index into the system call table to retrieve the corresponding function pointer.
+
+**Function Execution:**
+The kernel then executes the function pointed to by the retrieved function pointer, representing the actual implementation of the requested system call.
+
+**Transition to Kernel Space:**
+During this process, the CPU transitions from user space to kernel space, granting the kernel the necessary privileges to execute the system call.
+
+**Return to User Space:**
+After the system call is executed, control returns to user space, and the result (if any) is provided to the user-level application.
+
+## ARM System Calls:
+
+On ARM architectures, when performing a system call, the register `r7` is often used to pass the system call number. Additionally, ARM architectures may use a "swi" (Software Interrupt) instruction to initiate a system call. 
+
+### Register `r7` in ARM:
+
+- **General-Purpose Register:**
+  In ARM architecture, `r7` is one of the general-purpose registers. It is commonly used as a parameter or for various purposes.
+
+### System Call Number in `r7`:
+
+- **Passing System Call Number:**
+  When making a system call on ARM, the system call number is typically passed in register `r7`. The kernel uses the value in `r7` to determine which system call the user space application is requesting.
+
+## `syscall` Instruction:
+
+**Usage:**
+
+- The `syscall` instruction is associated with ARM architectures that follow the ARMv7-A and ARMv8-A architectures.
+
+**ARMv7-A and ARMv8-A:**
+
+- On these architectures, the preferred instruction for system calls is often `syscall`.
+
+**assembly Code:**
+
+```markdown
+    write (1 , *buffer , size ); 
+    is translated in assembly to ......
+    ; Load values into registers
+    mov r7, 4          ; System call number for write
+    mov r0, 1          ; File descriptor for stdout(console)
+    ldr r1, =buffer    ; Pointer to the buffer
+    mov r2, size       ; Size of the buffer
+
+    ; Invoke the system call using syscall
+    syscall
+```
+
+## note that you have a user stack and kernel stack 
+
+## User Stack:
+
+- **Located in the memory space reserved for user processes (user space).**
+- **Used for managing function calls, storing local variables, and handling control flow within user-level code.**
+- **Each user process has its own user stack.**
+
+## Kernel Stack:
+
+- **Located in the memory space reserved for the kernel (kernel space).**
+- **Used for managing function calls, storing local variables, and handling control flow within the kernel.**
+- **Each process that transitions from user space to kernel space (e.g., during a system call) typically uses a separate kernel stack.**
+
+When a user space program makes a system call, it triggers a transition to kernel space. During this transition, the user stack is usually switched to a kernel stack to avoid potential issues with the user stack being manipulated while in kernel mode. 
+
+-----------------------------------------------------------------------
+
+## System Call Handler:
+
+![](C:\Users\Tech Nation\Desktop\Kernel\introduction-to-system-calls-1-1641802026.png)
+
+A **system call handler** is a function within the kernel that handles a specific system call requested by a user space program. Each system call has a unique identifier (often an integer known as a system call number), and the kernel uses this identifier to determine which handler should be executed. The handler is responsible for performing the operations associated with the system call and returning the results to the user space program.
+
+**-note that it is like (ISR)**
+
+### How a System Call Handler Works:
+
+**User Space Program:**
+- A user space program makes a system call by invoking a system call interface (e.g., a library function like `write` or `open` in C).
+
+**System Call Number:**
+
+- The system call interface determines the system call number associated with the requested operation. Each system call has a unique number.
+
+**User Space to Kernel Space Transition:**
+
+- The user space program transitions from user mode to kernel mode, typically through a special instruction or interrupt.
+
+**Dispatcher:**
+
+- The kernel dispatcher determines the appropriate system call handler based on the system call number. This involves looking up the system call number in a system call table.
+
+**Argument Validation:**
+- The kernel validates the arguments passed by the user space program to ensure they are valid and within acceptable ranges. This step is crucial for security and stability.
+
+**System Call Handler Execution:**
+
+- The kernel executes the corresponding system call handler. This handler is a function within the kernel that performs the actual work associated with the system call.
+
+**Kernel Space Processing:**
+- Inside the system call handler, the kernel has access to privileged operations and system resources. The handler performs the necessary actions, such as interacting with hardware, managing memory, or accessing filesystems.
+
+**Return to User Space:**
+- After the system call handler completes its execution, the kernel returns control to user space, and the user space program continues its execution.
+
+### Symbolic Representation:
+
+```c
+// User space program invoking system call
+int result = syscall_number(arg1, arg2, ...);
+
+// Kernel space (highly simplified)
+long syscall_handler(int syscall_number, long arg1, long arg2, ...) {
+    switch (syscall_number) {
+        case SYS_WRITE:
+            // Implementation of write system call
+            return write(arg1, arg2, ...);
+        case SYS_READ:
+            // Implementation of read system call
+            return read(arg1, arg2, ...);
+        // ... other system calls ...
+        default:
+            // Handle unsupported system calls
+            return -ENOSYS;
+    }
+}
+```
+
+## How we Can implement our own system Call ?
+
+Implementing a system call involves modifying the kernel.
+
+## General Steps:
+
+### 1. Identify System Call Table:
+
+Locate the system call table in the kernel source code. 
+
+### 2. Choose a System Call Number:
+
+Choose a unique system call number for your new system call. Avoid conflicts with existing system call numbers.
+
+### 3.Write the System Call Handler:
+
+Implement the functionality of your system call by writing a system call handler........ writing the actual code that will be executed when the system call is invoked.
+
+### 4. Update System Call Table:
+
+Add an entry to the system call table, associating your chosen system call number with **the address of your system call handler.**
+
+### 5. recompile and Install the Kernel:
+
+Recompile the modified kernel source code to generate a new kernel image. Install the new kernel on the system. 
+
+**symbolic representation of system call implementation** 
+
+**symboliiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiic**
+
+```
+// Include the appropriate kernel headers
+#include <linux/kernel.h>
+#include <linux/errno.h>
+
+// Define a unique system call number
+#define SYS_ITI 333
+
+// System call handler for ITI
+asmlinkage long sys_iti(void) {
+    printk("Hello from ITI\n");
+    return 0;
+}
+
+// LCD device driver function to print to the LCD
+void LCD_Print(const char *message) {
+    // Implementation for printing to LCD
+    // This would involve interactions with the hardware registers or another low-level mechanism
+    // to display the specified message on the LCD.
+}
+
+// Entry point for LCD_Print function
+asmlinkage long sys_lcd_print(const char *message) {
+    LCD_Print(message);
+    return 0;
+}
+
+```
+
+**Include Kernel Headers:**
+
+- Use the appropriate kernel headers. I used `<linux/kernel.h>` and `<linux/errno.h>`.
+
+**Define a System Call Number:**
+
+- I defined a symbolic name (`SYS_ITI`) for the system call number (333). This number needs to be unique and not conflict with existing system call numbers.
+
+**System Call Handler:**
+
+- The `asmlinkage` keyword is often used in the kernel to indicate that the function follows the calling convention of the architecture.
+- The `sys_iti` function is the system call handler that gets invoked when the user space program calls `sys_iti()`.
+
+**Print to Kernel Log:**
+
+- The `printk` function is used to print messages to the kernel log. The format string is "Hello from ITI\n".
+
+**Error Handling:**
+
+- I included the `perror` function, which is often used in user space programs for printing error messages along with their descriptions. However, in the kernel, error handling might be different, and `perror` is not commonly used in kernel code.
+
+**LCD Device Driver Function:**
+
+- The `LCD_Print` function is part of LCD device driver. It is responsible for interacting with the hardware to display a message on the LCD.
+- The implementation of `LCD_Print` would involve low-level operations, such as writing to specific hardware registers or using other mechanisms to control the LCD.
+
+**System Call for LCD Printing:**
+
+- I added a system call named `sys_lcd_print` that invokes the `LCD_Print` function. The `sys_lcd_print` system call allows user space programs to request LCD printing through the kernel.
