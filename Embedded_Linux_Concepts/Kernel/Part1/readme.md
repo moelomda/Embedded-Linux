@@ -30,8 +30,9 @@ The Linux kernel is the core component of the Linux operating system, serving as
 ## System Calls:
 
 - The interface between user-level applications and 
+![fundamental-architecture-of-linux (1)](https://github.com/moelomda/Embedded-Linux/assets/88937815/65fed528-ef6b-43ed-9a2d-2a8ec97af80d)
 
-![fundamental-architecture-of-linux (1)](C:\Users\Tech Nation\Desktop\fundamental-architecture-of-linux (1).webp)
+
 
 # Components of the Linux Kernel
 
