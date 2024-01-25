@@ -143,8 +143,9 @@ When you run `./app`, the shell interprets the command and initiates the executi
 ----------------------------------------------------------------------------------
 
 # User Space and kernel Space 
+![user-space-vs-kernel-space-simple-user-space](https://github.com/moelomda/Embedded-Linux/assets/88937815/210f7392-18cb-42cc-82a2-841d27ebd2f3)
 
-![user-space-vs-kernel-space-simple-user-space](C:\Users\Tech Nation\Desktop\Kernel\user-space-vs-kernel-space-simple-user-space.png)
+
 
 ## User Space:
 
@@ -315,7 +316,8 @@ The data ("Hello, World!\n") is ultimately displayed on the console or terminal.
 
 ## System Call Table in Linux Kernel :
 
-![](C:\Users\Tech Nation\Desktop\Kernel\image00.webp)
+![image00](https://github.com/moelomda/Embedded-Linux/assets/88937815/8520e014-f8e8-497f-abff-dd6f0e264444)
+
 
 The system call table is a critical data structure used by the operating system kernel to map system call numbers to the corresponding functions that handle those system calls. In Linux, the system call table is an array of function pointers, and it plays a central role in allowing user-level applications to request services from the kernel. It facilitates the transition between user space and kernel space during system call execution.
 
@@ -399,7 +401,8 @@ When a user space program makes a system call, it triggers a transition to kerne
 
 ## System Call Handler:
 
-![](C:\Users\Tech Nation\Desktop\Kernel\introduction-to-system-calls-1-1641802026.png)
+![introduction-to-system-calls-1-1641802026](https://github.com/moelomda/Embedded-Linux/assets/88937815/e7c2baf2-6529-46e8-a85b-f50f1f97ac91)
+
 
 A **system call handler** is a function within the kernel that handles a specific system call requested by a user space program. Each system call has a unique identifier (often an integer known as a system call number), and the kernel uses this identifier to determine which handler should be executed. The handler is responsible for performing the operations associated with the system call and returning the results to the user space program.
 
@@ -585,7 +588,8 @@ the address will be then replaced with the appropriate address from the dtb file
 
 A kernel module is a loadable and unloadable piece of software code that can be inserted into or removed from the Linux kernel dynamically. It extends the kernel's capabilities by providing additional functionalities, such as device drivers, filesystems, or support for specific hardware.
 
-![](C:\Users\Tech Nation\Desktop\Kernel\unnamed.png)
+![unnamed](https://github.com/moelomda/Embedded-Linux/assets/88937815/6de2bad5-1e73-40a8-91da-d5ebc5533592)
+
 
 suppose that we want to make a new module called GPIO
 
