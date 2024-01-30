@@ -561,23 +561,7 @@ void GPIO_Init() {
 
 When building a kernel module for ARM architecture, you need to use a cross-compiler that is specifically designed to generate binaries for the ARM architecture. The appropriate compiler toolchain for ARM is typically prefixed with the target architecture`arm-linux-gnueabi` 
 
-## For ARM (arm-linux-gnueabi):
-
-### Compiler:
-```bash
-arm-linux-gnueabi-gcc
-```
-
  the `.ko` extension indicates a loadable kernel module. When you build your GPIO module for ARM architecture using a cross-compiler, you obtain a file named `gpio.ko`. This file can then be loaded into the Linux kernel at runtime using tools like `insmod` or `modprobe`.
-
-```bash
-# Compile GPIO module for ARM architecture
-arm-linux-gnueabi-gcc -o gpio.o -c gpio.c
-arm-linux-gnueabi-ld -o gpio.ko -r gpio.o
-
-# Load GPIO module into the kernel
-insmod gpio.ko
-```
 
 ## Dynamic Modules and Static Modules 
 
