@@ -2,7 +2,8 @@
 
 **Customization:** The Yocto Project's primary strength lies in its extreme customizability.
 
-![what-is-yocto-poky](F:\study\ITI_9months\matrial\embeded linux\embeded_linux\assets\what-is-yocto-poky.jpg)
+![what-is-yocto-poky](https://github.com/moelomda/Embedded-Linux/assets/88937815/c82ba4a3-2a30-499a-bb84-69988f88ad9a)
+
 
 -----
 
@@ -163,7 +164,8 @@ Now, when you build your image using BitBake, your custom software 'my-app' will
 
 -----
 
-![yocto-environment](F:\study\ITI_9months\matrial\embeded linux\embeded_linux\assets\yocto-environment.png)
+![yocto-environment](https://github.com/moelomda/Embedded-Linux/assets/88937815/ec753c3a-bd15-43fc-84d9-406e18b3f133)
+
 
 **Overall Workflow**
 
