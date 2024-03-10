@@ -2,7 +2,8 @@
 
 **Customization:** The Yocto Project's primary strength lies in its extreme customizability.
 
-![what-is-yocto-poky](F:\study\ITI_9months\matrial\embeded linux\embeded_linux\assets\what-is-yocto-poky.jpg)
+![what-is-yocto-poky](https://github.com/moelomda/Embedded-Linux/assets/88937815/f4de4ee1-1d1e-4ed5-ade8-54c518b6653c)
+
 
 -----
 
@@ -188,7 +189,8 @@ the sequence of events triggered when you run a `bitbake` command like `bitbake 
 
 -----
 
-![yocto-environment](F:\study\ITI_9months\matrial\embeded linux\embeded_linux\assets\yocto-environment.png)
+
+![yocto-environment](https://github.com/moelomda/Embedded-Linux/assets/88937815/85d872f3-9cbd-4aff-a876-97b7a09020bd)
 
 **Yocto Overall Workflow**
 
