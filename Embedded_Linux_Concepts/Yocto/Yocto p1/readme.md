@@ -17,6 +17,8 @@
 - **Reference Distribution:** It's a starting point, providing example recipes, configurations, and a basic structure for your embedded Linux distribution.
 
  Here's what you'll find within Poky:
+ ![image](https://github.com/moelomda/Embedded-Linux/assets/88937815/fadab123-6d53-4505-a8c4-c9a31af339e8)
+
 
 **BitBake:** The build engine that interprets recipes and executes tasks.
 
