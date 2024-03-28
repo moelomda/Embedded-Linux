@@ -15,25 +15,6 @@ Dunfell and Kirkstone are code names for specific Long-Term Support (LTS) releas
 - **Release Date:** October 2022
 - **LTS Status:** Active LTS, supported for a longer duration (the exact end date is sometimes announced later in the cycle).
 - **Features:** Key improvements include security enhancements, a focus on containerization technologies, and better integration with modern development practices.
-
----------------------------------------------------------
-
-- **BitBake: The Core Engine:** BitBake is the task execution engine at the heart of the Yocto Project. It's responsible for parsing recipes, interpreting dependencies, and scheduling tasks to build your custom embedded Linux system.
-- **OpenEmbedded-Core (OE-Core): The Essential Foundation**  OE-Core is a collection of foundational recipes, configuration files, and tools that form the common base for many embedded systems built with the Yocto Project. Think of it as the essential building blocks. BitBake heavily relies on OE-Core.
-- **Poky: A Reference Distribution:** Poky is a complete build system using OE-Core and providing additional layers, policies, and configurations.  It serves as both a starting point for your own customization and a demonstration of how to assemble a full embedded Linux distribution with the Yocto Project.
-
-**In Summary**
-
-- BitBake is a core component of the broader OpenEmbedded project.
-- OE-Core provides the fundamental Metadata (recipes, etc.) that BitBake operates on.
-- Poky is built on top of OE-Core and BitBake, offering a practical reference system.
-
-Think of making a cake:
-
-- **BitBake:** The oven
-- **OE-Core:** Basic ingredients (flour, sugar, eggs)
-- **Poky:** A complete cake recipe with specific flavors and frosting
-
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 **1. The Kitchen: Your Build Environment**
