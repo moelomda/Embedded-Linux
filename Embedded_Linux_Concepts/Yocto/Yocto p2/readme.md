@@ -186,61 +186,66 @@ Example
 
 ```bash
 # Immediate Assignment (:=)
-VAR1 := "initial"
-VAR2 := "${VAR1} value"  # VAR2 immediately takes the value of VAR1
+VAR1 := "initial"            # VAR1 = "initial"
+VAR2 := "${VAR1} value"      # VAR2 = "initial value" 
 
 # Deferred Conditional Assignment (?=)
-VAR1 ?= "default"
-VAR2 ?= "overridden"  # VAR2 only gets "overridden" if not defined previously
+VAR1 ?= "default"            # VAR1 remains "initial" (already set)
+VAR2 ?= "overridden"         # VAR2 remains "initial value" (already set) 
 
 # Immediate Appending (+=)
-FILES += "file1.txt"
-FILES += "file2.txt"  # FILES is appended with "file1.txt" and "file2.txt"
+FILES += "file1.txt"         # FILES = "file1.txt"
+FILES += "file2.txt"         # FILES = "file1.txt file2.txt"
 
 # Overrides (:append)
-SOURCES := "${SOURCES} newfile.c"  # "newfile.c" appended to SOURCES only when used
+SOURCES := "${SOURCES} newfile.c"  # Undefined SOURCES: has no effect
 
 # Mixing Immediate and Deferred Operators
-VAR3 = "another"
-VAR4 := "${VAR3} value"  # VAR4 takes the immediate value of VAR3
+VAR3 = "another"             # VAR3 = "another" 
+VAR4 := "${VAR3} value"      # VAR4 = "another value"  
 
 # Deferred Weak Conditional Assignment (??=)
-VAR5 ??= "weak"
-VAR6 ??= "strong"  # VAR5 takes "weak" only if not set or empty
+VAR5 ??= "weak"              # VAR5 = "weak"  
+VAR6 ??= "strong"            # VAR6 remains "weak" (already set)
 
 # Immediate Prepending (=+)
-OPTIONS =+ "-v"
-OPTIONS =+ "-debug"  # OPTIONS prepended with "-v" and "-debug"
+OPTIONS =+ "-v"              # OPTIONS = "-v"
+OPTIONS =+ "-debug"          # OPTIONS = "-debug -v" (prepended)
 
 # Overrides (:remove)
-PACKAGES := "${PACKAGES} unwanted"  # "unwanted" added to PACKAGES only when used
-PACKAGES:remove = "unwanted"  # Removes "unwanted" if present in PACKAGES
+PACKAGES := "${PACKAGES} unwanted"   # Undefined PACKAGES: has no effect
+PACKAGES:remove = "unwanted"        # No effect
 -------------------------------------------------------------------------------------------------
-Immediate Assignment (:=) with Deferred Assignment (=):
-VAR1 := "initial"
-VAR2 = "${VAR1} value"
-# Final Result: VAR2 = "initial value" (VAR2 takes the immediate value of VAR1)
-Deferred Conditional Assignment (?=) with Immediate Assignment (:=):
-VAR3 ?= "default"
-VAR4 := "${VAR3} value"
-# Final Result: VAR4 = "default value" (VAR4 takes the immediate value of VAR3)
-Deferred Assignment (=) with Overrides (:append):
-VAR5 = "initial"
-VAR6 := "${VAR5} value"
-VAR6 :append = " extra"
-# Final Result: VAR6 = "initial value extra" (VAR6 takes the value of VAR5 with "extra" appended)
-Immediate Appending (+=) with Deferred Conditional Assignment (?=):
-FILES += "file1.txt"
-FILES ?= "default.txt"
-# Final Result: FILES = "file1.txt" (FILES appends "file1.txt" immediately, not affected by conditional assignment)
-Deferred Weak Conditional Assignment (??=) with Immediate Prepending (=+):
-VAR7 ??= "weak_default"
-OPTIONS =+ "-v"
-# Final Result: OPTIONS = "-v" (OPTIONS takes "-v" immediately, unaffected by weak conditional assignment)
-Immediate Assignment (:=) with Overrides (:remove):
-VAR8 := "initial"
-PACKAGES := "${VAR8} package"
-PACKAGES:remove = " package"
+# Immediate Assignment (:=) with Deferred Assignment (=):
+VAR1 := "initial"            # VAR1 = "initial"
+VAR2 = "${VAR1} value"       # VAR2 = "initial value" 
+
+# Deferred Conditional Assignment (?=) with Immediate Assignment (:=):
+VAR3 ?= "default"            # VAR3 = "default"  (remains unchanged as already set)
+VAR4 := "${VAR3} value"      # VAR4 = "default value" 
+
+# Deferred Assignment (=) with Overrides (:append):
+VAR5 = "initial"             # VAR5 = "initial"
+VAR6 := "${VAR5} value"      # VAR6 = "initial value"
+VAR6 :append = " extra"      # VAR6 = "initial value extra"
+
+# Immediate Appending (+=) with Deferred Conditional Assignment (?=):
+FILES += "file1.txt"         # FILES = "file1.txt"
+FILES ?= "default.txt"       # FILES = "file1.txt" (remains unchanged)
+
+# Deferred Weak Conditional Assignment (??=) with Immediate Prepending (=+):
+VAR7 ??= "weak_default"      # VAR7 = "weak_default"
+OPTIONS =+ "-v"              # OPTIONS = "-v"
+
+# Immediate Assignment (:=) with Overrides (:remove):
+VAR8 := "initial"            # VAR8 = "initial"
+PACKAGES := "${VAR8} package" # PACKAGES = "initial package"  
+PACKAGES:remove = " package" # PACKAGES = "initial"
+
+# Deferred Conditional Assignment (?=) with Overrides (:prepend):
+VAR9 ?= "default"            # VAR9 = "default"
+OPTIONS:prepend := "${VAR9}_" # OPTIONS = "default_-v" 
+
 # Final Result: PACKAGES = "" (PACKAGES is emptied by the removal of "package")
 Deferred Conditional Assignment (?=) with Overrides (:prepend):
 VAR9 ?= "default"
