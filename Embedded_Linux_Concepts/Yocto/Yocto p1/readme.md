@@ -483,8 +483,6 @@ how caching and the default download directory work within Poky and the Yocto Pr
 
 ----------------------
 
-Here's a breakdown of the crucial roles `local.conf`  and `bblayers.conf` play within the Yocto Project, along with how they work together:
-
 **conf/local.conf**
 
 - **Purpose:** This is your primary file for customizing the Yocto Project build.
